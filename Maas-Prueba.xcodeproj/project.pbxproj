@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		654F4D362C2B93C00089F41B /* Maas_PruebaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F4D352C2B93C00089F41B /* Maas_PruebaApp.swift */; };
-		654F4D382C2B93C00089F41B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F4D372C2B93C00089F41B /* ContentView.swift */; };
+		654F4D382C2B93C00089F41B /* TarjetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F4D372C2B93C00089F41B /* TarjetaView.swift */; };
 		654F4D3A2C2B93C10089F41B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654F4D392C2B93C10089F41B /* Assets.xcassets */; };
 		654F4D3D2C2B93C10089F41B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654F4D3C2C2B93C10089F41B /* Preview Assets.xcassets */; };
 		654F4D472C2B93C20089F41B /* Maas_PruebaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F4D462C2B93C20089F41B /* Maas_PruebaTests.swift */; };
@@ -16,7 +16,6 @@
 		654F4D532C2B93C20089F41B /* Maas_PruebaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654F4D522C2B93C20089F41B /* Maas_PruebaUITestsLaunchTests.swift */; };
 		658C076F2C3325FA00072AB9 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 658C076E2C3325FA00072AB9 /* Alamofire */; };
 		658C07722C337AD900072AB9 /* MaasAppModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658C07712C337AD900072AB9 /* MaasAppModels.swift */; };
-		658C07762C338C9E00072AB9 /* NetworkApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658C07752C338C9E00072AB9 /* NetworkApi.swift */; };
 		658C07812C33AD5800072AB9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658C07802C33AD5800072AB9 /* NetworkManager.swift */; };
 		658C07852C33B6AF00072AB9 /* TarjetaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658C07842C33B6AF00072AB9 /* TarjetaViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +40,7 @@
 /* Begin PBXFileReference section */
 		654F4D322C2B93C00089F41B /* Maas-Prueba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Maas-Prueba.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		654F4D352C2B93C00089F41B /* Maas_PruebaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maas_PruebaApp.swift; sourceTree = "<group>"; };
-		654F4D372C2B93C00089F41B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		654F4D372C2B93C00089F41B /* TarjetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarjetaView.swift; sourceTree = "<group>"; };
 		654F4D392C2B93C10089F41B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		654F4D3C2C2B93C10089F41B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		654F4D422C2B93C20089F41B /* Maas-PruebaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Maas-PruebaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,7 +49,6 @@
 		654F4D502C2B93C20089F41B /* Maas_PruebaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maas_PruebaUITests.swift; sourceTree = "<group>"; };
 		654F4D522C2B93C20089F41B /* Maas_PruebaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maas_PruebaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		658C07712C337AD900072AB9 /* MaasAppModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaasAppModels.swift; sourceTree = "<group>"; };
-		658C07752C338C9E00072AB9 /* NetworkApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkApi.swift; sourceTree = "<group>"; };
 		658C07802C33AD5800072AB9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		658C07842C33B6AF00072AB9 /* TarjetaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarjetaViewModel.swift; sourceTree = "<group>"; };
 		659902C12C3317A800C2D721 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -106,9 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				657F40AD2C350A09009E2519 /* ViewModel */,
-				657F40AC2C350A01009E2519 /* Vista */,
-				657F40AB2C3509F7009E2519 /* Modelo */,
-				658C07702C337ABA00072AB9 /* Models */,
+				657F40AC2C350A01009E2519 /* View */,
+				657F40AB2C3509F7009E2519 /* Api */,
+				658C07702C337ABA00072AB9 /* Modelo */,
 				659902C12C3317A800C2D721 /* Info.plist */,
 				654F4D352C2B93C00089F41B /* Maas_PruebaApp.swift */,
 				654F4D392C2B93C10089F41B /* Assets.xcassets */,
@@ -142,21 +140,20 @@
 			path = "Maas-PruebaUITests";
 			sourceTree = "<group>";
 		};
-		657F40AB2C3509F7009E2519 /* Modelo */ = {
+		657F40AB2C3509F7009E2519 /* Api */ = {
 			isa = PBXGroup;
 			children = (
-				658C07752C338C9E00072AB9 /* NetworkApi.swift */,
 				658C07802C33AD5800072AB9 /* NetworkManager.swift */,
 			);
-			path = Modelo;
+			path = Api;
 			sourceTree = "<group>";
 		};
-		657F40AC2C350A01009E2519 /* Vista */ = {
+		657F40AC2C350A01009E2519 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				654F4D372C2B93C00089F41B /* ContentView.swift */,
+				654F4D372C2B93C00089F41B /* TarjetaView.swift */,
 			);
-			path = Vista;
+			path = View;
 			sourceTree = "<group>";
 		};
 		657F40AD2C350A09009E2519 /* ViewModel */ = {
@@ -167,12 +164,12 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		658C07702C337ABA00072AB9 /* Models */ = {
+		658C07702C337ABA00072AB9 /* Modelo */ = {
 			isa = PBXGroup;
 			children = (
 				658C07712C337AD900072AB9 /* MaasAppModels.swift */,
 			);
-			path = Models;
+			path = Modelo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,10 +309,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				658C07852C33B6AF00072AB9 /* TarjetaViewModel.swift in Sources */,
-				654F4D382C2B93C00089F41B /* ContentView.swift in Sources */,
+				654F4D382C2B93C00089F41B /* TarjetaView.swift in Sources */,
 				658C07722C337AD900072AB9 /* MaasAppModels.swift in Sources */,
 				658C07812C33AD5800072AB9 /* NetworkManager.swift in Sources */,
-				658C07762C338C9E00072AB9 /* NetworkApi.swift in Sources */,
 				654F4D362C2B93C00089F41B /* Maas_PruebaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

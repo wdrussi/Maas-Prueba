@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct ResponseValidCard: Codable {
+struct ResponseValidCard: Decodable {
     let card: String?
     let isValid: Bool?
     let status: String?
     let error: String?
-    //mock
+    /*mock
     init(card: String?, isValid: Bool?, status: String?, error: String?) {
         self.card = card
         self.isValid = isValid
         self.status = status
         self.error = error
-    }
+    }*/
 }
 
-struct ResponseCardInformation: Codable {
+struct ResponseCardInformation:  Decodable {
     
   let cardNumber: String?
   let profileCode: String?
@@ -31,7 +31,9 @@ struct ResponseCardInformation: Codable {
   let bankName: String?
   let userName: String?
   let userLastName: String?
-    //mock
+  let errorMessage: String?
+  let errorCode: String?
+    /*mock
     init(cardNumber: String?, profileCode: String?, profile: String?, profile_es: String?, bankCode: String?, bankName: String?, userName: String?, userLastName: String?
          ) {
         self.cardNumber = cardNumber
@@ -42,5 +44,5 @@ struct ResponseCardInformation: Codable {
         self.bankName = bankName
         self.userName = userName
         self.userLastName = userLastName
-    }
+    }*/
 }

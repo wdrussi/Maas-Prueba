@@ -11,7 +11,7 @@ import SwiftUI
 struct Maas_PruebaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TarjetaView()
         }
     }
 }

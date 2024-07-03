@@ -7,53 +7,93 @@
 
 import Foundation
 
-@MainActor class TarjetaViewModel: ObservableObject {
-    var serialTarjeta = ""
-    var errorMessage = ""
+class TarjetaViewModel: ObservableObject {
     var card: ResponseValidCard? = nil
-    var tarjetaTullave: ResponseCardInformation? = nil
+    @Published var tarjetaTullave: ResponseCardInformation? = nil
+    @Published var numeroTarjeta: String = ""
     @Published var isLoading = false
     @Published var resultText: String = ""
-    @Published var tarjetas: [ResponseCardInformation] = []
+    @Published var listaTarjetas: [Tarjeta] = []
     
-    func ValidacionTarjeta(serial: String) -> ResponseValidCard? {
+    func ValidacionTarjeta(serial: String) {
         self.isLoading = true
-        /*Task {
-         if let validateCard = await NetworkApi.validarTullave(serial: serial) {
-         self.card = validateCard
-         } else {
-         self.errorMessage = "Error ValidacionTarjeta TarjetaViewModel"
-         }
-         }*/
-        //mock
-        self.card = ResponseValidCard(card: "1010000008550436", isValid: true, status: "0", error: "no error")
-        
-        return self.card
+        NetworkManager.shared.validarEstado(serial: serial) { result in
+            switch result {
+            case .success(let data):
+                    self.card = data
+                    self.ConsultarTarjeta(serial: serial)
+            case .failure(let error):
+                    print("Error validating card: \(error)")
+            }
+        }
     }
     
-    // terminar de construir metodo de consulta tarjeta
-    func ConsultarTarjeta(card: ResponseValidCard) -> ResponseCardInformation? {
+    func ConsultarTarjeta(serial: String) {
         self.isLoading = true
-        /*
-        Task {
-            if card.isValid ?? false {
-                if let tarjeta = await NetworkApi.informacionTullave(serial: card.card ?? "0") {
-                    self.tarjetaTullave = tarjeta
-                    self.resultText = "Tarjeta Registrada"
-                    self.isLoading = false
-                }else {
-                    self.errorMessage = "Error ConsultarTarjeta TarjetaViewModel"
+        if self.card?.isValid ?? false {
+            NetworkManager.shared.informacionTarjeta(serial: serial) { result in
+                switch result {
+                case .success(let data):
+                        self.tarjetaTullave = data
+                        if self.tarjetaTullave?.cardNumber != nil {
+                            let nuevoTarjeta = Tarjeta(
+                                id: UUID(),
+                                nombreCompleto: (self.tarjetaTullave?.userName)! + " " + (self.tarjetaTullave?.userLastName)!,
+                                serialTuLlave: (self.tarjetaTullave?.cardNumber)!,
+                                perfilTarjeta: (self.tarjetaTullave?.profile_es)!,
+                                imgtarjetaTullave: "imgtarjetaTullave"
+                            )
+                            self.listaTarjetas.append(nuevoTarjeta)
+                            self.guardarTarjeta()
+                            self.resultText = "Tarjeta Registrada"
+                        } else {
+                            self.resultText = "Error "+(self.tarjetaTullave?.errorMessage ?? "")
+                            
+                        }
+                case .failure(let error):
+                        print("Error validating card: \(error)")
                 }
-            } else {
-                self.resultText = "Error Tarjeta No Valida"
             }
-        }*/
-        //mock
-        self.resultText = "Tarjeta Registrada"
-        self.tarjetaTullave = ResponseCardInformation(cardNumber: "1010000008550436", profileCode: "ad2", profile: "ad", profile_es: "adulto", bankCode: "23",
-                                                      bankName: "bbva", userName: "mockeador", userLastName: "mocksito")
+        } else {
+            self.resultText = "Error Tarjeta No Valida"
+        }
         self.isLoading = false
-        //fin mock
-        return tarjetaTullave
+    }
+    
+    func borrarTarjeta(_ tarjeta: Tarjeta) {
+        if let index = listaTarjetas.firstIndex(where: { $0.id == tarjeta.id }) {
+            listaTarjetas.remove(at: index)
+            guardarTarjeta()
+        }
+    }
+    
+    func guardarTarjeta() {
+        do {
+            let data = try JSONEncoder().encode(listaTarjetas)
+            let url = getDocumentsDirectory().appendingPathComponent("tarjetas.json")
+            try data.write(to: url)
+        } catch {
+            print("Error al guardar tarjetas: \(error.localizedDescription)")
+        }
+    }
+    
+    func cargarTarjetas() {
+        let url = getDocumentsDirectory().appendingPathComponent("tarjetas.json")
+        do {
+            let data = try Data(contentsOf: url)
+            listaTarjetas = try JSONDecoder().decode([Tarjeta].self, from: data)
+        } catch {
+            print("Error al cargar tarjetas: \(error.localizedDescription)")
+        }
+    }
+    
+    func borrarTodasLasTarjetas() {
+        listaTarjetas.removeAll()
+        guardarTarjeta()
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
 }

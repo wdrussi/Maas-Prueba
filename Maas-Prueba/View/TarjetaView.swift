@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  TarjetaView.swift
 //  Maas-Prueba
 //
 //  Created by DanielRussi   on 25/06/24.
@@ -10,25 +10,23 @@ import Alamofire
 
 struct Tarjeta: Identifiable, Codable {
     let id : UUID
-    let nombreCompleto: String
+    var nombreCompleto: String
     let serialTuLlave: String
     let perfilTarjeta: String
     var imgtarjetaTullave: String
 }
 
-struct ContentView: View {
+struct TarjetaView: View {
     @StateObject private var tarjetaViewModel = TarjetaViewModel()
-    @State private var numeroTarjeta: String = ""
-    @State private var listaTarjetas: [Tarjeta] = []
-    
+
     var body: some View {
         VStack {
-            TextField("Numero de Tarjeta", text: $numeroTarjeta)
+            TextField("Numero de Tarjeta", text: $tarjetaViewModel.numeroTarjeta)
                 .keyboardType(.numberPad)
-                .onChange(of: numeroTarjeta) { newValue in
+                .onChange(of: tarjetaViewModel.numeroTarjeta) { newValue in
                     let filtered = newValue.filter { "0123456789".contains($0) }
                     if filtered != newValue {
-                        numeroTarjeta = filtered
+                        tarjetaViewModel.numeroTarjeta = filtered
                     }
                 }
                 .padding()
@@ -49,7 +47,7 @@ struct ContentView: View {
                         .cornerRadius(8)
                 }
                 
-                Button(action: borrarTodasLasTarjetas) {
+                Button(action: tarjetaViewModel.borrarTodasLasTarjetas) {
                     Text("Eliminar Todo")
                         .padding()
                         .background(Color.red)
@@ -59,9 +57,9 @@ struct ContentView: View {
             }
             
             List {
-                ForEach(listaTarjetas) { tarjeta in
+                ForEach(tarjetaViewModel.listaTarjetas) { tarjeta in
                     HStack {
-                        Image(tarjeta.imgtarjetaTullave)
+                        Image("imgtarjetaTullave")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -73,16 +71,14 @@ struct ContentView: View {
                                 .font(.subheadline)
                         }
                         Spacer()
-                        Button(action: { borrarTarjeta(tarjeta) }) {
+                        Button(action: { tarjetaViewModel.borrarTarjeta(tarjeta) }) {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
                         }
                     }
                 }
             }
-            
-            
-            
+
             if tarjetaViewModel.isLoading {
                 ProgressView("Cargando...")
                     .progressViewStyle(CircularProgressViewStyle())
@@ -94,63 +90,18 @@ struct ContentView: View {
         .padding()
         .allowsHitTesting(!tarjetaViewModel.isLoading)
         .onAppear{
-            cargarTarjetas()
+            tarjetaViewModel.cargarTarjetas()
         }
     }
     
     func registrarTarjeta()  {
-        let card: ResponseValidCard = tarjetaViewModel.ValidacionTarjeta(serial: numeroTarjeta)!
-        let tarjetaTuLlave: ResponseCardInformation = tarjetaViewModel.ConsultarTarjeta(card: card)!
-        let nuevoTarjeta = Tarjeta(id: UUID(), nombreCompleto: tarjetaTuLlave.userName! + " " + tarjetaTuLlave.userLastName!,
-                                   serialTuLlave: tarjetaTuLlave.cardNumber!, perfilTarjeta: tarjetaTuLlave.profile_es!, imgtarjetaTullave: "imgtarjetaTullave")
-        listaTarjetas.append(nuevoTarjeta)
-        guardarTarjeta()
-        numeroTarjeta = ""
+        tarjetaViewModel.ValidacionTarjeta(serial: tarjetaViewModel.numeroTarjeta)
+        tarjetaViewModel.numeroTarjeta = ""
     }
-    
-    func borrarTarjeta(_ tarjeta: Tarjeta) {
-        if let index = listaTarjetas.firstIndex(where: { $0.id == tarjeta.id }) {
-            listaTarjetas.remove(at: index)
-            guardarTarjeta()
-        }
-    }
-    
-    func guardarTarjeta() {
-        do {
-            let data = try JSONEncoder().encode(listaTarjetas)
-            let url = getDocumentsDirectory().appendingPathComponent("tarjetas.json")
-            try data.write(to: url)
-        } catch {
-            print("Error al guardar tarjetas: \(error.localizedDescription)")
-        }
-    }
-    
-    func cargarTarjetas() {
-        let url = getDocumentsDirectory().appendingPathComponent("tarjetas.json")
-        do {
-            let data = try Data(contentsOf: url)
-            listaTarjetas = try JSONDecoder().decode([Tarjeta].self, from: data)
-        } catch {
-            print("Error al cargar tarjetas: \(error.localizedDescription)")
-        }
-    }
-    
-    func borrarTodasLasTarjetas() {
-        listaTarjetas.removeAll()
-        guardarTarjeta()
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        TarjetaView()
     }
 }
